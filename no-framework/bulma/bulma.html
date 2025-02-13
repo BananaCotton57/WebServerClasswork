@@ -5,9 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@1.0.3/css/bulma.min.css">
-    <link href="
-    https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.9.0/css/all.min.css
-" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.9.0/css/all.min.css">
     <style>
         .section {
             background-color: azure;
@@ -15,6 +13,7 @@
     </style>
 </head>
 <body>
+
     <nav class="navbar" role="navigation" aria-label="main navigation">
         <div class="container">
         <div class="navbar-brand">
@@ -37,12 +36,12 @@
         <div id="navbarBasicExample" class="navbar-menu">
           <div class="navbar-start">
             <a class="navbar-item">
-                <i class="fa-solid fa-house-chimney"></i>
+                <i class="fas fa-home"></i>
               Home
             </a>
       
             <a class="navbar-item">
-                <i class="fas fa-paint-brush"></i>
+                <i class="fas fa-passport"></i>
               Documentation
             </a>
       
@@ -82,8 +81,10 @@
             </div>
           </div>
         </div>
-      </nav>
     </div>
+      </nav>
+
+
         <section class="section">
             <div class="container">
                 <h1 class="title">
@@ -100,7 +101,20 @@
                 <div class="columns">
                     <div class="column">
                         <div class="notification is-success is-light">
-                            This is a primary notification
+                            <button class="delete"></button>
+                            This is a primary notification #1
+                        </div>
+                        <div class="notification is-success is-light">
+                            <button class="delete"></button>
+                            This is a primary notification #2
+                        </div>
+                        <div class="notification is-success is-light">
+                            <button class="delete"></button>
+                            This is a primary notification #3
+                        </div>
+                        <div class="notification is-success is-light">
+                            <button class="delete"></button>
+                            This is a primary notification #4
                         </div>
                     </div>
                     <div class="column">
@@ -115,7 +129,6 @@
                     </div>
                 </div>
             </div>
-
             <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js" integrity="sha512-v2CJ7UaYy4JwqLDIrZUI/4hqeoQieOmAZNXBeQyjo21dadnwR+8ZaIJVT8EE2iyI61OV8e6M8PP2/4hpQINQ/g==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
             <script>
                 $(document).ready(function() {
