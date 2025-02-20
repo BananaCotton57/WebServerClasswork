@@ -1,14 +1,17 @@
 //load the http module
-const http = require('http');
+const express = require('express')
 const PORT = 8000;
 
-const server = http.createServer((request, response) => {
-    response.writeHead(200, { 'Content-Type': 'text/plain' });
-    response.end('Hello New Paltz, NY!!!\n');
+const app = express();
+
+app.get('/', (req, res) => {
+    res.send('Hello New Paltz, NY!!!\n')
 });
 
-server.listen(PORT, () => {
-    console.log(`Server running at http://localhost:${PORT}/`);
+
+
+app.listen(PORT, () => {
+    console.log(`Server running at http://localhost:${PORT}/`)
 });
 
-console.log('Hello World!');
+console.log('Hello World!')
