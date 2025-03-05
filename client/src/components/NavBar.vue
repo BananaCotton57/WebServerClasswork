@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import {ref} from 'vue'
+import { ref } from 'vue'
 
 const isActive = ref(false)
 
@@ -9,12 +9,12 @@ const isActive = ref(false)
     <nav class="navbar is-info" role="navigation" aria-label="main navigation">
         <div class="container">
             <div class="navbar-brand">
-                <a class="navbar-item" href="https://youtube.com">
+                <a class="navbar-item" href="https://jewpaltz.com">
                     <img alt="Vue logo" class="logo" src="@/assets/logo.svg" width="30" />
                 </a>
 
                 <a role="button" class="navbar-burger" aria-label="menu" aria-expanded="false"
-                    :class="{ 'is-active': isActive }" @click="isActive = !isActive">
+                   :class="{ 'is-active': isActive }" @click="isActive = !isActive">
                     <span aria-hidden="true"></span>
                     <span aria-hidden="true"></span>
                     <span aria-hidden="true"></span>

@@ -4,10 +4,10 @@
 
 <template>
     <div>
-        <h1 class="title is-4">Shopping Cart</h1>
+        <h2 class="title is-4">
+            Shopping Cart
+        </h2>
     </div>
 </template>
 
-<style scoped>
-
-</style>
+<style scoped></style>

@@ -11,19 +11,18 @@
 <style scoped>
 .sliding-drawer {
     position: fixed;
-    top: 0;
-    left: 0;
-    height: 100%;
-    width: 70%;
-    max-width: 300px;
+    top: 50px;
+    bottom: 0;
+    right: 0;
+    width: 20rem;
     background-color: white;
-    box-shadow: 2px 0 5px rgba(0, 0, 0, 0.26);
-    z-index: 200;
-    transform: translateX(-100%);
+    box-shadow: -1px 0 7px rgba(0, 0, 0, 0.5);
+    transform: translateX(18rem);
     transition: transform 0.3s ease-out;
 }
 
-.sliding-drawer.open .sliding-drawer:hover{
+.sliding-drawer.open,
+.sliding-drawer:hover {
     transform: translateX(0);
 }
 </style>
