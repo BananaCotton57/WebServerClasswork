@@ -1,29 +1,61 @@
 /*  B"H
 */
-
-const express = require('express')
-const router = express.Router()
+const model = require('../models/products') //this imports the model
+const express = require('express') //this imports the express library
+const router = express.Router() //this is the express router
 
 router
-    .get('/', (req, res) => {
+    .get('/', (req, res, next) => {
 
-        res.send([{
-            id: 1,
-            name: 'Product 1',
-            price: 10.99
-        },
-        {
-            id: 2,
-            name: 'Product 2',
-            price: 20.99
-        },
-        {
-            id: 3,
-            name: 'Product 3',
-            price: 30.99
-        }])
+        model.getAll().then((data) => {
+            res.send(data)
+        }).catch(next) 
     })
-    .get('/:id', (req, res) => {
+        //This is a promise that resolves when the data is returned.
+        //The catch method is used to handle any errors that may occur during the execution of the promise.
+        //This is asynchronous code.
+
+        /*
+        model.getAll().then((data) => {
+            res.send(data)
+        }).catch(err -> {
+            console.error(err)
+            res.status(500).send('Internal Server Error')
+        }) 
+        */
+        //This is a promise that resolves when the data is returned.
+        //It is the same as the previous one, but it uses an arrow function to handle the error.
+        //Usually used in synchronous code.
+    
+        .get('/:id', (req, res, next) => {
+            const { id } = req.params
+            model.get(id).then((data) => {
+                res.send(data)
+            }).catch(next)
+        })
+
+        .post('/', (req, res, next) => {
+            const { name, price } = req.body
+            model.create({ name, price }).then((data) => {
+                res.send(data)
+            }).catch(next)
+        })
+
+        .patch('/:id', (req, res, next) => {
+            const { id } = req.params
+            const { name, price } = req.body
+            model.update(id, { name, price }).then((data) => {
+                res.send(data)
+            }).catch(next)
+        })
+
+        .delete('/:id', (req, res, next) => {
+            const { id } = req.params
+            model.remove(id).then((data) => {
+                res.send(data)
+            }).catch(next)
+    })
+    .get('/:id', (req, res, next) => {
         const { id } = req.params
 
         res.send({
@@ -32,7 +64,7 @@ router
             price: 10.99 * id
         })
     })
-    .post('/', (req, res) => {
+    .post('/', (req, res, next) => {
         const { name, price } = req.body
 
         res.send({
@@ -41,7 +73,7 @@ router
             price
         })
     })
-    .patch('/:id', (req, res) => {
+    .patch('/:id', (req, res, next) => {
         const { id } = req.params
         const { name, price } = req.body
 
@@ -51,7 +83,7 @@ router
             price
         })
     })
-    .delete('/:id', (req, res) => {
+    .delete('/:id', (req, res, next) => {
         const { id } = req.params
 
         res.send({

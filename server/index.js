@@ -24,6 +24,46 @@ app.listen(PORT, () => {
 
 console.log('Hello World!')
 
+/*
+Asynchronous patterns in Node.js
+1. Callbacks
+  - These are functions that are passed as arguments to
+    other functions and are executed after the completion 
+    of the asynchronous operation.
+  - An analogy to this is a waiter in a restaurant, who
+    takes your order and brings you the food when it's 
+    ready.
+
+2. Pipelines
+  - These are a series of functions that are executed in 
+    sequence, where the output of one function is passed as 
+    the input to the next function.
+  - An analogy to this is a pipeline in a factory, where
+    raw materials are processed through a series of 
+    machines to produce a finished product.
+
+3. Promises
+  - These are objects that represent the eventual 
+    completion (or failure) of an asynchronous operation 
+    and its resulting value.
+  - They tell you if the operation was successful or not.
+  - An analogy to this is a delivery service, where you
+    place an order and receive a tracking number. You can
+    check the status of your order and know if it was
+    delivered or not.
+
+4. Async/Await
+  - This is a syntactic sugar over promises that allows
+    you to write asynchronous code in a synchronous 
+    manner.
+     - Syntactic Sugar is a term used in programming to refer to 
+       syntax within a programming language that is designed 
+       to make things easier to read or express.
+  - An analogy to this is a chef in a restaurant, who
+    prepares a dish and waits for it to be cooked before 
+    serving it.
+*/
+
 /* Ways to send data to the server (understand these concepts):
 
 1. PATH parameters: /users/123 (in express, it recognizes as :/users/:id)

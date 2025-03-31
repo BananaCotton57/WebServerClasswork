@@ -1,49 +1,57 @@
 const data = require('../data/products.json')
 
-function getAll() {
+async function getAll() {
     return data
 }
 
-function get(id){
-    data.find((item) => {
+async function get(id){
+    data.items.find((item) => {
         return item.id == id
     })
 }
 
-function create(item){
+async function create(item){
     const newItem = {
-        id: data.length + 1,
+        id: data.items.length + 1,
         ...item
     }
-    data.push(newItem)
+    data.items.push(newItem)
     return newItem
 }
 
-function update(id, item){
-    const index = data.findIndex((item) => {
+async function update(id, item){
+    const index = data.items.findIndex((item) => {
         return item.id == id
     })
     if (index === -1) {
         return null
     }
     const updatedItem = {
-        ...data[index],
+        ...data.items[index],
         ...item
     }
-    data[index] = updatedItem
+    data.items[index] = updatedItem
     return updatedItem
 }
 
-function remove(id){
-    const index = data.findIndex((item) => {
+async function remove(id){
+    const index = data.items.findIndex((item) => {
         return item.id == id
     })
     if (index === -1) {
         return null
     }
-    const deletedItem = data[index]
-    data.splice(index, 1)
+    const deletedItem = data.items[index]
+    data.items.splice(index, 1)
     return deletedItem
+}
+
+module.exports = {
+    getAll,
+    get,
+    create,
+    update,
+    remove
 }
 
 // CRUD functions above (CRUD stands for Create, Read, Update, Delete)
@@ -75,5 +83,7 @@ function remove(id){
     6. Can improve scalability.
 
     Cons of Asynchronous programming:
-    
+    1. Harder to read and understand.
+    2. Harder to debug.
+    3. Harder to maintain.
 */
