@@ -8,11 +8,34 @@ const PORT = 8000
 
 const app = express();
 
+//Middleware
+//A middleware is a function that has access to the request object (req), 
+//the response object (res), 
+//and the next middleware function in the application’s request-response cycle.
+
+//It can perform the following tasks:
+//1. Execute any code.
+//2. Make changes to the request and response objects.
+//3. End the request-response cycle.
+//4. Call the next middleware function in the stack.
+  app.use(express.json()) // This middleware parses the request body as JSON
+
 app
   .get('/', (req, res) => {
     res.send('Hello New Paltz, NY!!!')
   })
   .use('/api/v1/products', productsController)
+
+app.use((err, req, res, next) => {
+    console.error(err)
+    const status = err.status || 500
+    const message = err.message || 'Oops! Something went wrong.'
+    const error = {
+        status,
+        message
+    }
+    res.status(status).send(error)
+})
 
 // Listen on port 8000, IP defaults to
 //

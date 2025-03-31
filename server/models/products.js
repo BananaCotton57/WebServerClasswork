@@ -5,9 +5,13 @@ async function getAll() {
 }
 
 async function get(id){
-    data.items.find((item) => {
+    const item = data.items.find((item) => {
         return item.id == id
     })
+    if (!item) {
+        throw new Error('Item not found', { status: 404 })
+    }
+    return item
 }
 
 async function create(item){
