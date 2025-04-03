@@ -2,16 +2,7 @@
 
 
 ###
-GET https://google.com/search?q=new+paltz 
-
-###
-GET https://dummyjson.com/products
-
-###
-GET https://dummyjson.com/products/1
-
-###
-http://localhost:8000/api/v1/products 
+http://localhost:8000/api/v1/products
 
 ###
 GET http://localhost:8000/api/v1/products/1
@@ -39,6 +30,7 @@ Content-Type: application/json
 
 ###
 DELETE http://localhost:8000/api/v1/products/1
+
 
 
 
