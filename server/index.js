@@ -24,7 +24,7 @@ const app = express();
 //A controller is a function that handles the request and response objects.
 //It is responsible for processing the request, interacting with the model, and sending the response back to the client.
 app
-  .get('/', (req, res) => {
+  .get('/hello', (req, res) => {
     res.send('Hello New Paltz, NY!!!')
   })
   .use('/api/v1/products', productsController)
