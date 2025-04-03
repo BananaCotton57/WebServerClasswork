@@ -5,7 +5,9 @@
   "description": "This is just a repository where I will do all my classwork for Web Server Programming.",
   "scripts": {
     "start": "node server/index.js",
-    "dev": "nodemon server/index.js -watch server"
+    "dev": "nodemon server/index.js -watch server",
+    "build:client": "npm run build --prefix client",
+    "build": "pnpm i --prefix client && npm run build --prefix client"
   },
   "license": "ISC",
   "dependencies": {

@@ -20,12 +20,19 @@ const app = express();
 //4. Call the next middleware function in the stack.
   app.use(express.json()) // This middleware parses the request body as JSON
 
+//Controllers
+//A controller is a function that handles the request and response objects.
+//It is responsible for processing the request, interacting with the model, and sending the response back to the client.
 app
   .get('/', (req, res) => {
     res.send('Hello New Paltz, NY!!!')
   })
   .use('/api/v1/products', productsController)
+  
+  .use('/', express.static('dist')) //vue client uses dist
 
+//Error handling middleware
+//This middleware is used to handle errors that occur in the application.
 app.use((err, req, res, next) => {
     console.error(err)
     const status = err.status || 500
@@ -34,6 +41,7 @@ app.use((err, req, res, next) => {
         status,
         message
     }
+    //I could probably compress this code into one line in the error const 
     res.status(status).send(error)
 })
 
