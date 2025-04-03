@@ -1,5 +1,7 @@
 const data = require('../data/products.json')
-const { CustomError, statusCodes } = require('./errors')
+const { CustomError, statusCodes } = require('./errors') 
+//this imports the CustomError and statusCodes from the errors.js file
+//the require() is a built-in function in Node.js that is used to import modules.
 
 const isAdmin = true;
 
