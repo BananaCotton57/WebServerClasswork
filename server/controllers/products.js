@@ -92,3 +92,6 @@ router
     })
 
 module.exports = router
+
+//The purpose of a Model is to represent the data in the application.
+//It is responsible for interacting with the database and performing CRUD operations.
