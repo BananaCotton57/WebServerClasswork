@@ -1,7 +1,8 @@
+/*  B"H
+*/
+
 const data = require('../data/users.json')
-const { CustomError, statusCodes } = require('./errors') 
-//this imports the CustomError and statusCodes from the errors.js file
-//the require() is a built-in function in Node.js that is used to import modules.
+const { CustomError, statusCodes } = require('./errors')
 
 const isAdmin = true;
 
@@ -10,9 +11,7 @@ async function getAll() {
 }
 
 async function get(id){
-    const item = data.items.find((item) => {
-        return item.id == id
-    })
+    const item = data.items.find((item) => item.id == id)
     if (!item) {
         throw new CustomError('Item not found', statusCodes.NOT_FOUND)
     }
@@ -21,7 +20,7 @@ async function get(id){
 
 async function create(item){
     if(!isAdmin){
-        throw new CustomError('You are not authorized to create a new item.', statusCodes.UNAUTHORIZED);
+        throw CustomError("Sorry, you are not authorized to create a new item", statusCodes.UNAUTHORIZED)
     }
     const newItem = {
         id: data.items.length + 1,
@@ -32,9 +31,7 @@ async function create(item){
 }
 
 async function update(id, item){
-    const index = data.items.findIndex((item) => {
-        return item.id == id
-    })
+    const index = data.items.findIndex((item) => item.id == id)
     if (index === -1) {
         return null
     }
@@ -44,12 +41,11 @@ async function update(id, item){
     }
     data.items[index] = updatedItem
     return updatedItem
+
 }
 
 async function remove(id){
-    const index = data.items.findIndex((item) => {
-        return item.id == id
-    })
+    const index = data.items.findIndex((item) => item.id == id)
     if (index === -1) {
         return null
     }
