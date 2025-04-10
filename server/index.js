@@ -3,6 +3,7 @@
 // Load the http module to create an http server.
 const express = require('express')
 const productsController = require('./controllers/products')
+const usersController = require('./controllers/users'); // Import usersController
 
 const PORT = 8000
 
@@ -28,6 +29,7 @@ app
     res.send('Hello New Paltz, NY!!!')
   })
   .use('/api/v1/products', productsController)
+  .use('/api/v1/users', usersController)
   
   .use('/', express.static('dist')) //vue client uses dist
 

@@ -33,5 +33,34 @@ DELETE http://localhost:8000/api/v1/products/1
 
 
 
+#########################
+### Users Controller testing
+#########################
+
+
+http://localhost:8000/api/v1/users
+
+###
+GET http://localhost:8000/api/v1/users/1
+
+###
+POST http://localhost:8000/api/v1/users
+Content-Type: application/json
+
+{
+  "first_name": "John",
+  "last_name": "Doe"
+}
+
+###
+PATCH http://localhost:8000/api/v1/users/1
+Content-Type: application/json
+
+{
+  "gender": "non-binary"
+}
+
+###
+DELETE http://localhost:8000/api/v1/users/1
 
 
