@@ -90,6 +90,19 @@ router
             message: `Product ${id} deleted`
         })
     })
+    .get('/search/:query', (req, res, next) => {
+        const { query } = req.params
+
+        model.search(query).then((data) => {
+            res.send(data)
+        }).catch(next)
+    })
+    .post('/seed', (req, res, next) => {
+        const[data] = req.body
+        model.seed().then((data) => {
+            res.send(data)
+        }).catch(next)
+    })
 
 module.exports = router
 

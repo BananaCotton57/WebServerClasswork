@@ -64,3 +64,5 @@ Content-Type: application/json
 DELETE http://localhost:8000/api/v1/users/1
 
 
+###
+POST http://localhost:8000/api/v1/products/seed

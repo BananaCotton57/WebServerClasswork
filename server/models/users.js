@@ -45,13 +45,22 @@ async function update(id, item){
 }
 
 async function remove(id){
-    const index = data.items.findIndex((item) => item.id == id)
-    if (index === -1) {
-        return null
+    for(const x of data.items){
+        const newItem = {
+            ...x,
+            "shipping information": x.shippingInformation,
+            shippingInformation: undefined
+            availability_status: x.availability_status,
+            availability_status: undefined
+            product_category: x.product_category,
+            product_category: undefined
+        }
+        const { data: newItem, error } = await connect().from(TABLE_NAME).delete().eq('id', id) //this deletes the item from the table
+        if (error) {
+            throw error
+        }
     }
-    const deletedItem = data.items[index]
-    data.items.splice(index, 1)
-    return deletedItem
+    return items
 }
 
 module.exports = {

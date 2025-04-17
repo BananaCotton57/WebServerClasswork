@@ -4,21 +4,12 @@
 const express = require('express')
 const productsController = require('./controllers/products')
 const usersController = require('./controllers/users'); // Import usersController
+require('dotenv').config() // Load environment variables from .env file (you can give it a path if you want)
 
-const PORT = 8000
+const PORT = process.env.PORT ?? 8000 //originally PORT was 8000
 
 const app = express();
 
-//Middleware
-//A middleware is a function that has access to the request object (req), 
-//the response object (res), 
-//and the next middleware function in the application’s request-response cycle.
-
-//It can perform the following tasks:
-//1. Execute any code.
-//2. Make changes to the request and response objects.
-//3. End the request-response cycle.
-//4. Call the next middleware function in the stack.
   app.use(express.json()) // This middleware parses the request body as JSON
 
 //Controllers
@@ -50,7 +41,8 @@ app.use((err, req, res, next) => {
 // Listen on port 8000, IP defaults to
 //
 app.listen(PORT, () => {
-    console.log(`Server running at http://localhost:${PORT}/`)
+    console.log(`Welcome to the best class at New Paltz - ${process.env.BEST_CLASS}
+      Server running at http://localhost:${PORT}/`)
 });
 
 
