@@ -7,12 +7,18 @@ const { connect } = require('./supabase')
 
 const TABLE_NAME = 'products'
 
+const BaseQuery = () => connect().from(TABLE_NAME)
+    .select('*, product_reviews(average_rating:rating.avg())', { count: "estimated" })
+    //.select('*')
+
 const isAdmin = true;
 
-async function getAll() {
-    const list = await connect().from(TABLE_NAME).select('*')
+async function getAll(limit = 30, offset = 0, sort = 'id', order = 'desc'){
+    const list = await BaseQuery()
+    .order(sort, { ascending: order === 'asc' })
+    .range(offset, offset + limit - 1) // 0 based index but range is inclusive
     if(list.error){
-        throw error
+        throw list.error
     }
     return {
         items: list.data,
@@ -21,7 +27,8 @@ async function getAll() {
 }
 
 async function get(id){
-    const { data: item, error } = await connect().from(TABLE_NAME).select('*').eq('id', id)
+    const { data: item, error } = await connect().from(TABLE_NAME)
+    .select('*, product_reviews(*)').eq('id', id)
     if (!item.length) {
         throw new CustomError('Item not found', statusCodes.NOT_FOUND)
     }
@@ -31,13 +38,18 @@ async function get(id){
     return item
 }
 
-async function search(query){
-    const { data: items, error } = await connect().from(TABLE_NAME).select('*')
+async function search(query, limit = 30, offset = 0, sort = 'id', order = 'desc'){
+    const { data: items, error, count } = await BaseQuery()
     .or(`title.ilike.%${query}%,description.ilike.%${query}%`)
+    .order(sort, { ascending: order === 'asc' })
+    .range(offset, offset + limit -1)
     if (error) {
         throw error
     }
-    return items
+    return {
+        items,
+        total: count
+    }
 } 
 
 async function create(item){
@@ -138,36 +150,3 @@ module.exports = {
     remove,
     seed,
 }
-// CRUD functions above (CRUD stands for Create, Read, Update, Delete)
-// In other words, these functions are used to create, read, update, and delete data. Basic functions
-// for any application.
-
-/* Asynchronous programming vs Synchronous programming
-    1. Synchronous programming: code is executed line by line, in order.
-    2. Asynchronous programming: code is executed in parallel, without waiting for the previous line to finish.
-
-    Pros of Synchronous programming:
-    1. Easier to read and understand.
-    2. Easier to debug.
-    3. Easier to maintain.
-    4. Easier to test.
-
-    Cons of Synchronous programming:
-    1. Slower.
-    2. Blocks the main thread.
-    3. Can cause performance issues.
-    4. Can cause deadlocks.
-
-    Pros of Asynchronous programming:
-    1. Faster.
-    2. Non-blocking.
-    3. Can handle multiple requests at the same time.
-    4. Can improve performance.
-    5. Can improve user experience.
-    6. Can improve scalability.
-
-    Cons of Asynchronous programming:
-    1. Harder to read and understand.
-    2. Harder to debug.
-    3. Harder to maintain.
-*/
