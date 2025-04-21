@@ -3,95 +3,135 @@
 
 const data = require('../data/users.json')
 const { CustomError, statusCodes } = require('./errors')
+const { connect } = require('./supabase')
+
+const TABLE_NAME = 'products'
+
+const BaseQuery = () => connect().from(TABLE_NAME)
+    .select('*, { count: "estimated" }')
+    //.select('*')
 
 const isAdmin = true;
 
-async function getAll() {
-    return data
+async function getAll(limit = 30, offset = 0, sort = 'id', order = 'desc'){
+    const list = await BaseQuery()
+    .order(sort, { ascending: order === 'asc' })
+    .range(offset, offset + limit - 1) // 0 based index but range is inclusive
+    if(list.error){
+        throw list.error
+    }
+    return {
+        items: list.data,
+        total: list.count
+    }
 }
 
 async function get(id){
-    const item = data.items.find((item) => item.id == id)
-    if (!item) {
+    const { data: item, error } = await connect().from(TABLE_NAME)
+    .select('*, product_reviews(*)').eq('id', id)
+    if (!item.length) {
         throw new CustomError('Item not found', statusCodes.NOT_FOUND)
     }
-    return item
+    if (error) {
+        throw error
+    }
+    return item[0] //changed to item[0] to return a single item instead of an array
 }
+
+async function search(query, limit = 30, offset = 0, sort = 'id', order = 'desc'){
+    const { data: items, error, count } = await BaseQuery()
+    .or(`title.ilike.%${query}%,description.ilike.%${query}%`)
+    .order(sort, { ascending: order === 'asc' })
+    .range(offset, offset + limit -1)
+    if (error) {
+        throw error
+    }
+    return {
+        items,
+        total: count
+    }
+} 
 
 async function create(item){
     if(!isAdmin){
         throw CustomError("Sorry, you are not authorized to create a new item", statusCodes.UNAUTHORIZED)
     }
-    const newItem = {
-        id: data.items.length + 1,
-        ...item
+    const { data: newItem, error } = await connect().from(TABLE_NAME).insert(item).select('*')
+    if (error) {
+        throw error
     }
-    data.items.push(newItem)
     return newItem
 }
 
 async function update(id, item){
-    const index = data.items.findIndex((item) => item.id == id)
-    if (index === -1) {
-        return null
+    if(!isAdmin){
+        throw CustomError("Sorry, you are not authorized to update this item", statusCodes.UNAUTHORIZED)
     }
-    const updatedItem = {
-        ...data.items[index],
-        ...item
+    const { data: updatedItem, error } = await connect().from(TABLE_NAME).update(item).eq('id', id).select('*')
+    if (error) {
+        throw error
     }
-    data.items[index] = updatedItem
     return updatedItem
 
 }
 
 async function remove(id){
-    const index = data.items.findIndex((item) => item.id == id)
-    if (index === -1) {
-        return null
+    if(!isAdmin){
+        throw CustomError("Sorry, you are not authorized to delete this item", statusCodes.UNAUTHORIZED)
     }
-    const deletedItem = data.items[index]
-    data.items.splice(index, 1)
+    const { data: deletedItem, error } = await connect().from(TABLE_NAME).delete().eq('id', id)
+    if (error) {
+        throw error
+    }
     return deletedItem
+}
+
+async function seed(){
+    for (const item of data.items) {
+
+        const insert = mapToDB(item)
+        const { data: newItem, error } = await connect().from(TABLE_NAME).insert(insert).select('*')
+        if (error) {
+            throw error
+        }
+
+    }
+    return { message: 'Seeded successfully' }
+}
+
+function mapToDB(item) {
+    return {
+        //id: item.id,
+        firstName: item.firstName,
+        lastName: item.lastName,
+        age: item.age,
+        gender: item.gender,
+        email: item.email,
+        phone: item.phone,
+        birthDate: item.birthDate,
+        image: item.image,
+        university: item.university,
+        role: item.role,
+    }
+}
+
+function mapReviewToDB(review, product_id) {
+    return {
+        product_id: product_id,
+        rating: review.rating,
+        comment: review.comment,
+        reviewer_email: review.reviewerEmail,
+        reviewer_name: review.reviewerName,
+        date: review.date,
+    }
 }
 
 module.exports = {
     getAll,
     get,
+    search,
     create,
     update,
-    remove
+    remove,
+    seed,
 }
-
-// CRUD functions above (CRUD stands for Create, Read, Update, Delete)
-// In other words, these functions are used to create, read, update, and delete data. Basic functions
-// for any application.
-
-/* Asynchronous programming vs Synchronous programming
-    1. Synchronous programming: code is executed line by line, in order.
-    2. Asynchronous programming: code is executed in parallel, without waiting for the previous line to finish.
-
-    Pros of Synchronous programming:
-    1. Easier to read and understand.
-    2. Easier to debug.
-    3. Easier to maintain.
-    4. Easier to test.
-
-    Cons of Synchronous programming:
-    1. Slower.
-    2. Blocks the main thread.
-    3. Can cause performance issues.
-    4. Can cause deadlocks.
-
-    Pros of Asynchronous programming:
-    1. Faster.
-    2. Non-blocking.
-    3. Can handle multiple requests at the same time.
-    4. Can improve performance.
-    5. Can improve user experience.
-    6. Can improve scalability.
-
-    Cons of Asynchronous programming:
-    1. Harder to read and understand.
-    2. Harder to debug.
-    3. Harder to maintain.
-*/
