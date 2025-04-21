@@ -35,7 +35,7 @@ async function get(id){
     if (error) {
         throw error
     }
-    return item
+    return item[0] //changed to item[0] to return a single item instead of an array
 }
 
 async function search(query, limit = 30, offset = 0, sort = 'id', order = 'desc'){
