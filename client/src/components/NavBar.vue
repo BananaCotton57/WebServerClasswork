@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { refCart } from '@/models/cart';
 import { ref } from 'vue'
+import LoginBadge from './LoginBadge.vue';
 
 const isActive = ref(false)
 
@@ -45,27 +46,7 @@ const event = defineEmits<{
                         Documentation
                     </a>
 
-                    <div class="navbar-item has-dropdown is-hoverable">
-                        <a class="navbar-link">
-                            More
-                        </a>
-
-                        <div class="navbar-dropdown">
-                            <a class="navbar-item">
-                                About
-                            </a>
-                            <a class="navbar-item is-selected">
-                                Jobs
-                            </a>
-                            <a class="navbar-item">
-                                Contact
-                            </a>
-                            <hr class="navbar-divider">
-                            <a class="navbar-item">
-                                Report an issue
-                            </a>
-                        </div>
-                    </div>
+        
                 </div>
 
                 <div class="navbar-end">
@@ -78,12 +59,16 @@ const event = defineEmits<{
                         <span class="cart-length tag is-danger">{{ cart.length }}</span>
                     </div>
                     <div class="navbar-item">
-                        <div class="buttons">
-                            <a class="button is-primary">
-                                <strong>Sign up</strong>
-                            </a>
+                        <LoginBadge />
+                    </div>
+                    <div class="navbar-item has-dropdown is-hoverable">
+                        <a class="navbar-link">
+                            More
+                        </a>
+
+                        <div class="navbar-dropdown">
                             <a class="button is-light">
-                                Log in
+                                About
                             </a>
                         </div>
                     </div>
