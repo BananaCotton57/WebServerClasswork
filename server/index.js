@@ -11,16 +11,17 @@ const PORT = process.env.PORT ?? 8000
 const app = express();
 
 // Middleware
-app.use((req, res, next) => { // Fixed syntax error by removing extra closing parenthesis
-  res.header('Access-Control-Allow-Origin', '*')
-  res.header('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept')
-  res.header('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, OPTIONS')
-  if (req.method === 'OPTIONS') {
-    return res.sendStatus(200)
-  }
-  next(); // Ensure next() is called to proceed to the next middleware
-});
-app.use(express.json())
+// CORS
+  app.use((req, res, next) => {
+    res.header('Access-Control-Allow-Origin', '*')
+    res.header('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept')
+    res.header('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, OPTIONS')
+    if (req.method === 'OPTIONS') {
+      return res.sendStatus(200)
+    }
+    next()
+  })
+    app.use(express.json())
 
 
 //Controllers
