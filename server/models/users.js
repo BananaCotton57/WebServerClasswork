@@ -5,10 +5,10 @@ const data = require('../data/users.json')
 const { CustomError, statusCodes } = require('./errors')
 const { connect } = require('./supabase')
 
-const TABLE_NAME = 'products'
+const TABLE_NAME = 'users'
 
 const BaseQuery = () => connect().from(TABLE_NAME)
-    .select('*, { count: "estimated" }')
+    .select('*, product_reviews(average_rating:rating.avg())', { count: "estimated" })
     //.select('*')
 
 const isAdmin = true;
@@ -35,12 +35,12 @@ async function get(id){
     if (error) {
         throw error
     }
-    return item[0] //changed to item[0] to return a single item instead of an array
+    return item[0]
 }
 
 async function search(query, limit = 30, offset = 0, sort = 'id', order = 'desc'){
     const { data: items, error, count } = await BaseQuery()
-    .or(`title.ilike.%${query}%,description.ilike.%${query}%`)
+    .or(`firstName.ilike.%${query}%,lastName.ilike.%${query}%,email.ilike.%${query}%,phone.ilike.%${query}%`)
     .order(sort, { ascending: order === 'asc' })
     .range(offset, offset + limit -1)
     if (error) {
@@ -104,25 +104,14 @@ function mapToDB(item) {
         //id: item.id,
         firstName: item.firstName,
         lastName: item.lastName,
-        age: item.age,
-        gender: item.gender,
         email: item.email,
         phone: item.phone,
+        age: item.age,
+        gender: item.gender,
         birthDate: item.birthDate,
         image: item.image,
         university: item.university,
         role: item.role,
-    }
-}
-
-function mapReviewToDB(review, product_id) {
-    return {
-        product_id: product_id,
-        rating: review.rating,
-        comment: review.comment,
-        reviewer_email: review.reviewerEmail,
-        reviewer_name: review.reviewerName,
-        date: review.date,
     }
 }
 
