@@ -8,10 +8,13 @@ import VueRouter from 'unplugin-vue-router/vite'
 
 // https://vite.dev/config/
 export default defineConfig({
+  base: './', // Base URL for the application
   plugins: [
-    VueRouter(/*
+    VueRouter( /*
       options
-    */),
+      */
+
+    ),
     vue(),
     vueJsx(),
     vueDevTools(),
